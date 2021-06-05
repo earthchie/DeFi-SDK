@@ -7,6 +7,8 @@ const ABI = {
 
 class DeFiSDK {
 
+    version = '0.0.2';
+
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
         this.setWallet(wallet);
@@ -34,7 +36,7 @@ class DeFiSDK {
 
     async loadContracts(list) {
         list = list || Contracts;
-        this.contractAddresses = list;
+        list = list;
 
         const provider = this.wallet || this.provider;
         const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
@@ -57,17 +59,17 @@ class DeFiSDK {
                 slippage = slippage || 0.5;
                 amountsIn = ethers.utils.parseUnits(amountsIn.toString(), 18);
 
-                const amounts = await this.Router.getAmountsOut(amountsIn, [DeFi.contractAddresses.BEP20[from], DeFi.contractAddresses.BEP20[to]]);
+                const amounts = await this.Router.getAmountsOut(amountsIn, [list.BEP20[from], list.BEP20[to]]);
                 let amountsOut = ethers.utils.formatUnits(amounts[1]);
                 amountsOut = ethers.utils.parseUnits((amountsOut - (amountsOut / 100 * slippage)).toString(), 18);
 
                 const deadline = Math.floor(new Date().getTime() / 1000) + 60 * 10;
                 let gasLimit = '150000';
                 try {
-                    gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [DeFi.contractAddresses.BEP20[from], DeFi.contractAddresses.BEP20[to]], DeFi.wallet.address, deadline);
+                    gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [list.BEP20[from], list.BEP20[to]], provider.address, deadline);
                 } catch (e) {}
 
-                return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [DeFi.contractAddresses.BEP20[from], DeFi.contractAddresses.BEP20[to]], DeFi.wallet.address, deadline, {
+                return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [list.BEP20[from], list.BEP20[to]], provider.address, deadline, {
                     gasPrice: ethers.utils.parseUnits('5', 'gwei'),
                     gasLimit: gasLimit.toString()
                 });
