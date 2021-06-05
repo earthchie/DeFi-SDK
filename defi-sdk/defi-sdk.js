@@ -7,7 +7,7 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.0.2';
+    version = '0.0.3';
 
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
@@ -36,7 +36,6 @@ class DeFiSDK {
 
     async loadContracts(list) {
         list = list || Contracts;
-        list = list;
 
         const provider = this.wallet || this.provider;
         const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
