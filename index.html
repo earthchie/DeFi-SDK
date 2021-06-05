@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethers Playground</title>
+</head>
+<body>
+    Ethers Playground
+    
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
+    
+    <script src="./defi-sdk/abis/abi-erc20.js"></script>
+    <script src="./defi-sdk/abis/abi-factory.js"></script>
+    <script src="./defi-sdk/abis/abi-pairs.js"></script>
+    <script src="./defi-sdk/abis/abi-router.js"></script>
+
+    <script src="./defi-sdk/contracts/bsc.js"></script>
+    <script src="./defi-sdk/defi-sdk.js"></script>
+    
+    <script>
+        let DeFi;
+        async function main(){
+            
+            // Read-only
+            DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
+            
+            // with private key, is able to sign transactions 
+            //DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/', "PrivateKey or Mnemonic");
+            
+            await DeFi.loadContracts();
+            console.log('Ready...');
+
+            // try
+            // await DeFi.Twindex.DOP_DOLLY.price();
+            // or
+            // await DeFi.Twindex.swap(amount = 1, from = 'TWIN', to = 'DOP'); // requires private key or mnemonic
+        }
+        main();
+
+    </script>
+</body>
+</html>
