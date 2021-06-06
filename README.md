@@ -76,6 +76,9 @@ await DeFi.DOP.balance(); // get DOP balance
 await DeFi.Twindex.PTZ_DOLLY.price(); // get PTZ price in DOLLY at Twindex
 await DeFi.Pancake.WAD_BUSD.price(); // get WAD price in BUSD at Pancake
 
+await DeFi.Twindex.DOP_DOLLY.buy(DOLLY = 10); // Buy DOP with 10 DOLLY at Twindex
+await DeFi.Pancake.DOP_BUSD.sell(DOP = 2); // Sell 2 DOP for BUSD at Pancake
+
 await DeFi.Twindex.swap(amount = 10, from = "BUSD", to = "DOP"); // swap 10 BUSD to DOP at Twindex. same as DeFi.Twindex.DOP_BUSD.buy(10);
 await DeFi.Pancake.swap(amount = 2, from = "DOP", to = "BUSD"); // swap 2 DOP to BUSD at Pancake. same as DeFi.Pancake.DOP_BUSD.sell(2);
 
