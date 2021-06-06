@@ -31,7 +31,10 @@ DeFi.provider.on('block', async n => { // listen to new block event
         DeFi.provider.off(); 
         
         // swap all BUSD in the wallet to DOP
-        console.log(await DeFi.Twindex.DOP_BUSD.buy()); // buy with all BUSD in the wallet. You can set specific amount too, using `.buy(amount)`.
+        // buy with all BUSD in the wallet. You can set specific amount too, using `.buy(amount)`.
+        let list = await DeFi.Twindex.DOP_BUSD.buy();
+        
+        console.log(list);
   
     }
 
@@ -59,7 +62,10 @@ DeFi.provider.on('block', async n => { // listen to new block event
         DeFi.provider.off(); 
         
         // swap all DOP in the wallet to BUSD
-        console.log(await DeFi.Twindex.DOP_BUSD.sell()); // sell all DOP in the wallet. You can set specific amount too, using `.sell(amount)`
+        // sell all DOP in the wallet. You can set specific amount too, using `.sell(amount)`
+        let result = await DeFi.Twindex.DOP_BUSD.sell();
+        
+        console.log(result); 
   
     }
 
