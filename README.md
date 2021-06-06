@@ -29,7 +29,7 @@ DeFi.provider.on('block', async n => { // listen to new block event
         DeFi.provider.off(); 
         
         // swap all BUSD in the wallet to DOP
-        console.log(await DeFi.Twindex.swap(amount = await DeFi.Tokens.BUSD.balance(), from = 'BUSD', to = 'DOP')); 
+        console.log(await DeFi.Twindex.DOP_BUSD.buy()); // buy with all BUSD in the wallet. You can set specific amount too, using `.buy(amount)`.
   
     }
 
@@ -56,10 +56,29 @@ DeFi.provider.on('block', async n => { // listen to new block event
         DeFi.provider.off(); 
         
         // swap all DOP in the wallet to BUSD
-        console.log(await DeFi.Twindex.swap(amount = await DeFi.Tokens.DOP.balance(), from = 'DOP', to = 'BUSD')); 
+        console.log(await DeFi.Twindex.DOP_BUSD.sell()); // sell all DOP in the wallet. You can set specific amount too, using `.sell(amount)`
   
     }
 
 });
 
 ```
+
+# More simple examples
+```
+await DeFi.wallet.balance(); // get BNB balance
+
+await DeFi.BUSD.balance(); // get BUSD balance
+await DeFi.DOP.balance(); // get DOP balance
+
+await DeFi.Twindex.PTZ_BUSD.price(); // get PTZ price in BUSD at Twindex
+await DeFi.Pancake.WAD_BUSD.price(); // get WAD price in BUSD at Pancake
+
+await DeFi.Twindex.swap(amount = 10, from = "BUSD", to = "DOP"); // swap 10 BUSD to DOP at Twindex. same as DeFi.Twindex.DOP_BUSD.buy(10);
+await DeFi.Pancake.swap(amount = 2, from = "DOP", to = "BUSD"); // swap 2 DOP to BUSD at Pancake. same as DeFi.Pancake.DOP_BUSD.sell(2);
+
+await DeFi.Pancake.swap(amount = 1, from = "BUSD", to = "SCZ", slippage_percentage = 1.5); // swap 1 BUSD to SCZ at Pancake with slippage percentage at 1.5%
+```
+
+# Want to add more Dex and Token?
+Easy, just edit `./defi-sdk/contracts/bsc.js` as you please.
