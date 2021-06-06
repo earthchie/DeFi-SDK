@@ -87,3 +87,11 @@ await DeFi.Pancake.swap(amount = 1, from = "BUSD", to = "SCZ", slippage_percenta
 
 # Want to add more Dex and Token?
 Easy, just edit `./defi-sdk/contracts/bsc.js` as you please.
+
+
+# Buy me some food
+เลี้ยงข้าวผมได้ โดยการบริจาคมาที่กระเป๋านี้ครับ
+
+## `0xF00D9600F507daDbDD7CEE75C570C0B4E8b2611E`
+
+![image](https://user-images.githubusercontent.com/7013039/120937036-4b923800-c735-11eb-91cd-753549c9be0e.png)
