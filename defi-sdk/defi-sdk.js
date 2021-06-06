@@ -7,7 +7,7 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.0.3';
+    version = '0.1.0';
 
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
@@ -35,17 +35,19 @@ class DeFiSDK {
     }
 
     async loadContracts(list) {
+        let _self = this;
         list = list || Contracts;
+        this.contractAddresses = list;
 
         const provider = this.wallet || this.provider;
         const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
         let Contract = {
-            BEP20: {},
+            Tokens: {},
             AMM: {}
         };
 
-        await Promise.all(Object.keys(list.BEP20).map(async sym => {
-            Contract.BEP20[sym] = new ethers.Contract(list.BEP20[sym], ABI.ERC20, provider);
+        await Promise.all(Object.keys(list.Tokens).map(async sym => {
+            Contract.Tokens[sym] = new ethers.Contract(list.Tokens[sym], ABI.ERC20, provider);
         }));
 
         await Promise.all(Object.keys(list.AMM).map(async dex => {
@@ -58,29 +60,34 @@ class DeFiSDK {
                 slippage = slippage || 0.5;
                 amountsIn = ethers.utils.parseUnits(amountsIn.toString(), 18);
 
-                const amounts = await this.Router.getAmountsOut(amountsIn, [list.BEP20[from], list.BEP20[to]]);
+                const amounts = await this.Router.getAmountsOut(amountsIn, [list.Tokens[from], list.Tokens[to]]);
                 let amountsOut = ethers.utils.formatUnits(amounts[1]);
                 amountsOut = ethers.utils.parseUnits((amountsOut - (amountsOut / 100 * slippage)).toString(), 18);
 
                 const deadline = Math.floor(new Date().getTime() / 1000) + 60 * 10;
                 let gasLimit = '150000';
                 try {
-                    gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [list.BEP20[from], list.BEP20[to]], provider.address, deadline);
+                    gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], provider.address, deadline);
                 } catch (e) {}
 
-                return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [list.BEP20[from], list.BEP20[to]], provider.address, deadline, {
+                return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], provider.address, deadline, {
                     gasPrice: ethers.utils.parseUnits('5', 'gwei'),
                     gasLimit: gasLimit.toString()
                 });
             }
 
-            await Promise.all(Object.keys(list.BEP20).map(async sym => {
+            await Promise.all(Object.keys(list.Tokens).map(async sym => {
                 if (list.AMM[dex].stables) {
+                    
                     await Promise.all(Object.keys(list.AMM[dex].stables).map(async stable => {
-                        Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.BEP20[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
+                        list.Tokens[stable] = list.AMM[dex].stables[stable];
+                        Contract.Tokens[stable] = new ethers.Contract(list.AMM[dex].stables[stable], ABI.ERC20, provider);
+
+                        Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
                     }));
+                    
                 } else {
-                    Contract[dex][sym + '_BUSD'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.BEP20[sym], BUSD), ABI.Pairs, provider);
+                    Contract[dex][sym + '_BUSD'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], BUSD), ABI.Pairs, provider);
                 }
 
                 await Promise.all(Object.keys(Contract[dex]).map(async pairs => {
@@ -93,6 +100,13 @@ class DeFiSDK {
                 }));
 
             }));
+        }));
+
+        
+        await Promise.all(Object.keys(Contract.Tokens).map(async sym => {
+            Contract.Tokens[sym].balance = async function() {
+                return +ethers.utils.formatUnits(await this.balanceOf(_self.wallet.address));
+            }
         }));
 
         Object.keys(Contract).forEach(i => {

@@ -1,6 +1,6 @@
 
 const Contracts = {
-    BEP20: {
+    Tokens: {
         DOP: '0x844fa82f1e54824655470970f7004dd90546bb28',
         TWIN: '0x3806aae953a3a873d02595f76c7698a57d4c7a57',
         PTZ: '0x437dbc6adE5c2Aed52bf5CcB54bF1B87a53cC436',
