@@ -8,7 +8,8 @@ Just run it in localhost then open the console and check `DeFi` variable for com
 
 เปิดเว็บใน localhost แล้วเปิด console ขึ้นมา จากนั้นลองดูตัวแปร `DeFi` จะพบกับคำสั่งที่ใช้ได้
 
-![image](https://user-images.githubusercontent.com/7013039/120934310-09aec500-c728-11eb-8e29-6a859753bd49.png)
+![image](https://user-images.githubusercontent.com/7013039/120937140-f30f6a80-c735-11eb-8021-44bb37b56f1e.png)
+
 
 # Example 1: Swap (Buy) token if the price drop below certain value
 ตัวอย่างการเฝ้าราคา ถ้าราคาร่วงมาแตะจุดที่ต้องการ ก็จะซื้ออัตโนมัติ
