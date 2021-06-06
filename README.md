@@ -75,6 +75,11 @@ DeFi.provider.on('block', async n => { // listen to new block event
 
 ## More simple examples
 ```
+DeFi.provider; // ethers.js standard Provider
+DeFi.wallet; // ethers.js standard Signer
+
+DeFi.wallet.address; // get my wallet address
+
 await DeFi.wallet.balance(); // get BNB balance
 
 await DeFi.BUSD.balance(); // get BUSD balance
@@ -90,6 +95,12 @@ await DeFi.Twindex.swap(amount = 10, from = "BUSD", to = "DOP"); // swap 10 BUSD
 await DeFi.Pancake.swap(amount = 2, from = "DOP", to = "BUSD"); // swap 2 DOP to BUSD at Pancake. same as DeFi.Pancake.DOP_BUSD.sell(2);
 
 await DeFi.Pancake.swap(amount = 1, from = "BUSD", to = "SCZ", slippage_percentage = 1.5); // swap 1 BUSD to SCZ at Pancake with slippage percentage at 1.5%
+
+DeFi.provider.on('block', blockNumber => console.log(blockNumber)); // listen to new block event
+DeFi.provider.on('pending', transaction => console.log(transaction)); // listen to pending transaction event
+
+// listen to token transfer event
+DeFi.Tokens.DOP.on('Transfer', (from, to, amount, transaction) => console.log(from, to, amount, transaction));
 ```
 
 ## Want to add more Dex and Token?
