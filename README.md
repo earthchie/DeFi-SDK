@@ -2,7 +2,7 @@
 
 Client-side-focused DeFi SDK.
 
-# Usage
+## Usage
 
 Just run it in localhost then open the console and check `DeFi` variable for commands
 
@@ -11,7 +11,7 @@ Just run it in localhost then open the console and check `DeFi` variable for com
 ![image](https://user-images.githubusercontent.com/7013039/120937140-f30f6a80-c735-11eb-8021-44bb37b56f1e.png)
 
 
-# Example 1: Swap (Buy) token if the price drop below certain value
+## Example 1: Swap (Buy) token if the price drop below certain value
 ตัวอย่างการเฝ้าราคา ถ้าราคาร่วงมาแตะจุดที่ต้องการ ก็จะซื้ออัตโนมัติ
 
 ระวังอย่าใช้ wallet ประจำนะครับ ควรสร้าง wallet ใหม่สำหรับโปรเจคนี้โดยเฉพาะ
@@ -42,7 +42,7 @@ DeFi.provider.on('block', async n => { // listen to new block event
 
 ```
 
-# Example 2: Swap (Sell) token if the price reached certain value
+## Example 2: Swap (Sell) token if the price reached certain value
 ตัวอย่างการเฝ้าราคา ถ้าราคาขึ้นไปแตะจุดที่ต้องการ ก็จะขายอัตโนมัติ
 
 ระวังอย่าใช้ wallet ประจำนะครับ ควรสร้าง wallet ใหม่สำหรับโปรเจคนี้โดยเฉพาะ
@@ -73,7 +73,7 @@ DeFi.provider.on('block', async n => { // listen to new block event
 
 ```
 
-# More simple examples
+## More simple examples
 ```
 await DeFi.wallet.balance(); // get BNB balance
 
@@ -92,13 +92,13 @@ await DeFi.Pancake.swap(amount = 2, from = "DOP", to = "BUSD"); // swap 2 DOP to
 await DeFi.Pancake.swap(amount = 1, from = "BUSD", to = "SCZ", slippage_percentage = 1.5); // swap 1 BUSD to SCZ at Pancake with slippage percentage at 1.5%
 ```
 
-# Want to add more Dex and Token?
+## Want to add more Dex and Token?
 Easy, just edit `./defi-sdk/contracts/bsc.js` as you please.
 
 
-# Buy me some food
+## Buy me some food
 เลี้ยงข้าวผมได้ โดยการบริจาคมาที่กระเป๋านี้ครับ
 
-## `0xF00D9600F507daDbDD7CEE75C570C0B4E8b2611E`
+### `0xF00D9600F507daDbDD7CEE75C570C0B4E8b2611E`
 
 ![image](https://user-images.githubusercontent.com/7013039/120937036-4b923800-c735-11eb-91cd-753549c9be0e.png)
