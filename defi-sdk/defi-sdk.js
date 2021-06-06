@@ -7,7 +7,7 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.1.0';
+    version = '0.1.1';
 
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
@@ -30,6 +30,8 @@ class DeFiSDK {
                     wallet = new ethers.Wallet.fromMnemonic(wallet);
                     this.wallet = wallet.connect(this.provider);
                 }
+
+                this.loadContracts(this.contractAddresses);
             }
         }
     }
@@ -67,10 +69,10 @@ class DeFiSDK {
                 const deadline = Math.floor(new Date().getTime() / 1000) + 60 * 10;
                 let gasLimit = '150000';
                 try {
-                    gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], provider.address, deadline);
+                    gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], _self.wallet.address, deadline);
                 } catch (e) {}
-
-                return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], provider.address, deadline, {
+                console.log(_self.wallet.address);
+                return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], _self.wallet.address, deadline, {
                     gasPrice: ethers.utils.parseUnits('5', 'gwei'),
                     gasLimit: gasLimit.toString()
                 });
