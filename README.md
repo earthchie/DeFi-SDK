@@ -12,6 +12,7 @@ Just run it in localhost then open the console and check `DeFi` variable for com
 
 # Example 1: Swap (Buy) token if the price drop below certain value
 ตัวอย่างการเฝ้าราคา ถ้าราคาร่วงมาแตะจุดที่ต้องการ ก็จะซื้ออัตโนมัติ
+
 ระวังอย่าใช้ wallet ประจำนะครับ ควรสร้าง wallet ใหม่สำหรับโปรเจคนี้โดยเฉพาะ
 
 ```javascript
@@ -39,6 +40,7 @@ DeFi.provider.on('block', async n => { // listen to new block event
 
 # Example 2: Swap (Sell) token if the price reached certain value
 ตัวอย่างการเฝ้าราคา ถ้าราคาขึ้นไปแตะจุดที่ต้องการ ก็จะขายอัตโนมัติ
+
 ระวังอย่าใช้ wallet ประจำนะครับ ควรสร้าง wallet ใหม่สำหรับโปรเจคนี้โดยเฉพาะ
 
 ```javascript
