@@ -7,7 +7,7 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.1.1';
+    version = '0.1.2';
 
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
@@ -44,8 +44,7 @@ class DeFiSDK {
         const provider = this.wallet || this.provider;
         const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
         let Contract = {
-            Tokens: {},
-            AMM: {}
+            Tokens: {}
         };
 
         await Promise.all(Object.keys(list.Tokens).map(async sym => {
@@ -71,7 +70,6 @@ class DeFiSDK {
                 try {
                     gasLimit = await this.Router.estimateGas.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], _self.wallet.address, deadline);
                 } catch (e) {}
-                console.log(_self.wallet.address);
                 return await this.Router.swapExactTokensForTokens(amountsIn, amountsOut, [list.Tokens[from], list.Tokens[to]], _self.wallet.address, deadline, {
                     gasPrice: ethers.utils.parseUnits('5', 'gwei'),
                     gasLimit: gasLimit.toString()
@@ -94,9 +92,18 @@ class DeFiSDK {
 
                 await Promise.all(Object.keys(Contract[dex]).map(async pairs => {
                     if (pairs !== 'Factory' && pairs !== 'Router') {
+                        Contract[dex][pairs].pairs = pairs.split('_');
                         Contract[dex][pairs].price = async function () { // only support standard 18-digits decimals for now
                             const reserves = await this.getReserves();
                             return reserves[1] / reserves[0];
+                        }
+                        Contract[dex][pairs].buy = async function(amount){
+                            amount = amount || await Contract.Tokens[this.pairs[1]].balance();
+                            return Contract[dex].swap(amount, this.pairs[1], this.pairs[0]);
+                        }
+                        Contract[dex][pairs].sell = async function(amount){
+                            amount = amount || await Contract.Tokens[this.pairs[0]].balance();
+                            return Contract[dex].swap(amount, this.pairs[0], this.pairs[1]);
                         }
                     }
                 }));
