@@ -7,7 +7,7 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.1.2';
+    version = '0.1.3';
 
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
@@ -30,9 +30,14 @@ class DeFiSDK {
                     wallet = new ethers.Wallet.fromMnemonic(wallet);
                     this.wallet = wallet.connect(this.provider);
                 }
-
-                this.loadContracts(this.contractAddresses);
             }
+        }
+
+        if(this.wallet){
+            this.wallet.balance = async function() {
+                return +ethers.utils.formatUnits(await this.getBalance());
+            }
+            this.loadContracts(this.contractAddresses);
         }
     }
 
@@ -44,7 +49,7 @@ class DeFiSDK {
         const provider = this.wallet || this.provider;
         const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
         let Contract = {
-            Tokens: {}
+            Tokens: {} 
         };
 
         await Promise.all(Object.keys(list.Tokens).map(async sym => {
