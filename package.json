@@ -1,0 +1,22 @@
+{
+  "name": "defi-sdk",
+  "version": "1.0.0",
+  "description": "Client-side-focused DeFi SDK.",
+  "main": "demo_bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/verticall/DeFi-SDK.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/verticall/DeFi-SDK/issues"
+  },
+  "homepage": "https://github.com/verticall/DeFi-SDK#readme",
+  "dependencies": {
+    "ethers": "^5.3.0"
+  }
+}
