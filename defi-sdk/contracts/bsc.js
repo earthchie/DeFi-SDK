@@ -15,6 +15,8 @@ const Contracts = {
         dTSLA: '0x17ace02e5c8814bf2ee9eaaff7902d52c15fb0f4',
         dAMZN: '0x1085b90544ff5c421d528aaf79cc65afc920ac79',
         dGOOGL: '0x9c169647471c1c6a72773cffc50f6ba285684803',
+        
+        ALE: '0x99ca242f20424a6565cc17a409e557fa95e25bd7',
     },
     AMM: {
         Pancake: {
@@ -32,6 +34,13 @@ const Contracts = {
         Ape: {
             Factory: '0x0841bd0b734e4f5853f0dd8d7ea041c241fb0da6',
             Router: '0xC0788A3aD43d79aa53B09c2EaCc313A787d1d607',
+        },
+        Ale_swap: {
+            stables: {
+                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+            },
+            Factory: '0x731d91dd835330cb2beeafb9a1672e3177b7168f',
+            Router: '0xbfbcc27fc5ea4c1d7538e3e076c79a631eb2bea6',
         }
     }
 };
