@@ -15,7 +15,7 @@ const Contracts = {
         dTSLA: '0x17ace02e5c8814bf2ee9eaaff7902d52c15fb0f4',
         dAMZN: '0x1085b90544ff5c421d528aaf79cc65afc920ac79',
         dGOOGL: '0x9c169647471c1c6a72773cffc50f6ba285684803',
-        
+
         ALE: '0x99ca242f20424a6565cc17a409e557fa95e25bd7',
         LEAF: '0x1cbddf83de068464eba3a4e319bd3197a7eea12c',
     },
@@ -45,3 +45,5 @@ const Contracts = {
         }
     }
 };
+
+module.exports = Contracts;
