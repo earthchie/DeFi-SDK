@@ -7,7 +7,7 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.1.3';
+    version = '0.1.4';
 
     constructor(rpc_url, wallet) {
         this.setRPC(rpc_url);
@@ -24,7 +24,7 @@ class DeFiSDK {
             this.wallet = wallet;
         } else {
             if (typeof wallet === 'string') {
-                if (wallet.length === 66) {
+                if (wallet.length === 64) {
                     this.wallet = new ethers.Wallet(wallet, this.provider);
                 } else {
                     wallet = new ethers.Wallet.fromMnemonic(wallet);
@@ -48,6 +48,7 @@ class DeFiSDK {
 
         const provider = this.wallet || this.provider;
         const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
+        const WBNB = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
         let Contract = {
             Tokens: {} 
         };
@@ -82,17 +83,22 @@ class DeFiSDK {
             }
 
             await Promise.all(Object.keys(list.Tokens).map(async sym => {
+
                 if (list.AMM[dex].stables) {
-                    
                     await Promise.all(Object.keys(list.AMM[dex].stables).map(async stable => {
                         list.Tokens[stable] = list.AMM[dex].stables[stable];
                         Contract.Tokens[stable] = new ethers.Contract(list.AMM[dex].stables[stable], ABI.ERC20, provider);
-
+                        
                         Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
                     }));
-                    
-                } else {
+                }
+
+                if(!Contract[dex][sym + '_BUSD']){
                     Contract[dex][sym + '_BUSD'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], BUSD), ABI.Pairs, provider);
+                }
+
+                if(!Contract[dex][sym + '_WBNB']){
+                    Contract[dex][sym + '_WBNB'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], WBNB), ABI.Pairs, provider);
                 }
 
                 await Promise.all(Object.keys(Contract[dex]).map(async pairs => {

@@ -11,6 +11,8 @@ const Contracts = {
         ZMN: '0xFCb8a4B1a0B645e08064e05B98E9cc6f48D2aa57',
         ZFARM: '0x42d1b21eabe04d308148ea9ab90be674b64b4eef',
 
+        WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+
         dAPPL: '0xC10b2Ce6A2BCfdFDC8100Ba1602C1689997299D3',
         dTSLA: '0x17ace02e5c8814bf2ee9eaaff7902d52c15fb0f4',
         dAMZN: '0x1085b90544ff5c421d528aaf79cc65afc920ac79',
@@ -26,7 +28,6 @@ const Contracts = {
         },
         Twindex: {
             stables: {
-                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
                 DOLLY: '0xff54da7caf3bc3d34664891fc8f3c9b6dea6c7a5'
             },
             Factory: '0x4e66fda7820c53c1a2f601f84918c375205eac3e',
@@ -37,9 +38,6 @@ const Contracts = {
             Router: '0xC0788A3aD43d79aa53B09c2EaCc313A787d1d607',
         },
         Ale_swap: {
-            stables: {
-                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
-            },
             Factory: '0x731d91dd835330cb2beeafb9a1672e3177b7168f',
             Router: '0xbfbcc27fc5ea4c1d7538e3e076c79a631eb2bea6',
         }

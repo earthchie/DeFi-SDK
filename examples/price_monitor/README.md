@@ -3,25 +3,18 @@ nodejs worker demo
 
 ## how to start
 ```bash
-git clone <git_repository>
+git clone https://github.com/earthchie/DeFi-SDK.git ./
 npm install
-node demo_bot.js
+node ./examples/price_monitor/price_monitor.js
 ```
+
 ## line notify alert
 ```js
-let DeFi;
 async function main() {
 
-    // Read-only
-    // var _DeFiSDK = require('./defi-sdk/defi-sdk.js');
+    let DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
 
-    // console.log(_DeFiSDK);
-    DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
-
-    // with private key, is able to sign transactions 
-    // var DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/', private_key);
-
-    DeFi.setLineToken('<line notify token>'); //////////////////////////// set line token
+    DeFi.setLineToken('<line notify token>');
     await DeFi.loadContracts();
     console.log('Ready...');
 
@@ -37,12 +30,11 @@ async function main() {
         console.log('DOP :: $'+dop_price);
         console.log('ALE :: $'+ale_price);
         console.log('LEAF :: $'+leaf_price);
-        if (ale_price > 0.05){
-            await DeFi.sendMsg('ALE PRICE :: $'+ale_price); //////////////////////  send line notify
-        }
-    });
 
-    // or
-    // await DeFi.Twindex.swap(amount = 1, from = 'TWIN', to = 'DOP'); // requires private key or mnemonic
+        if (ale_price > 0.05){
+            await DeFi.sendMsg('ALE PRICE :: $'+ale_price);
+        }
+
+    });
 }
 ```

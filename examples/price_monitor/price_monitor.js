@@ -1,17 +1,8 @@
-const DeFiSDK = require('./defi-sdk-node/defi-sdk');
-// const private_key = require('./private_key');
+const DeFiSDK = require('../../defi-sdk/defi-sdk-node');
 
-let DeFi;
 async function main() {
 
-    // Read-only
-    // var _DeFiSDK = require('./defi-sdk/defi-sdk.js');
-
-    // console.log(_DeFiSDK);
-    DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
-
-    // with private key, is able to sign transactions 
-    // var DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/', private_key);
+    let DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
 
     DeFi.setLineToken('<line notify token>');
     await DeFi.loadContracts();
@@ -29,13 +20,12 @@ async function main() {
         console.log('DOP :: $'+dop_price);
         console.log('ALE :: $'+ale_price);
         console.log('LEAF :: $'+leaf_price);
+
         if (ale_price > 0.05){
             await DeFi.sendMsg('ALE PRICE :: $'+ale_price);
         }
-    });
 
-    // or
-    // await DeFi.Twindex.swap(amount = 1, from = 'TWIN', to = 'DOP'); // requires private key or mnemonic
+    });
 }
 
 main();
