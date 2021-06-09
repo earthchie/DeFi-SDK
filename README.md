@@ -32,9 +32,9 @@ DeFi.provider.on('block', async n => { // listen to new block event
         
         // swap all BUSD in the wallet to DOP
         // buy with all BUSD in the wallet. You can set specific amount too, using `.buy(BUSD = 10)` means buy 10 BUSD of DOP.
-        let list = await DeFi.Twindex.DOP_BUSD.buy();
+        let result = await DeFi.Twindex.DOP_BUSD.buy();
         
-        console.log(list);
+        console.log(result);
   
     }
 
