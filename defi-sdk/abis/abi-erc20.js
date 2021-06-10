@@ -681,3 +681,4 @@ const abi_erc20 = [{
     "stateMutability": "view",
     "type": "function"
 }];
+module.exports = abi_erc20;

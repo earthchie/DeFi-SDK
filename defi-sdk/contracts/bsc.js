@@ -43,3 +43,5 @@ const Contracts = {
         }
     }
 };
+
+module.exports = Contracts;

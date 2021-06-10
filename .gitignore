@@ -1,3 +1,5 @@
 node_modules/*
 private_key.js
 bot.js
+
+.vscode
