@@ -750,3 +750,5 @@ const abi_router = [{
     "stateMutability": "payable",
     "type": "receive"
 }];
+
+module.exports = abi_router;
