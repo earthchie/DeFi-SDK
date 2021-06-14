@@ -4,6 +4,7 @@ var qs = require('querystring');
 
 const ABI = {
     ERC20: require('./abis/abi-erc20'),
+    MasterChef: require('./abis/abi-masterchef'),
     Factory: require('./abis/abi-factory'),
     Router: require('./abis/abi-router'),
     Pairs: require('./abis/abi-pairs')
@@ -14,13 +15,13 @@ const Contracts = require('./contracts/bsc')
 class DeFiSDK {
 
     constructor(rpc_url, wallet) {
-        this.version = '0.1.4';
+        this.version = '0.2.0';
         this.setRPC(rpc_url);
         this.setWallet(wallet);
     }
 
     setRPC(rpcURL) {
-        this.rpcURL = rpcURL || 'https://bsc-dataseed.binance.org/';
+        this.rpcURL = rpcURL;
         this.provider = new ethers.providers.JsonRpcProvider(this.rpcURL);
     }
 
@@ -38,8 +39,8 @@ class DeFiSDK {
             }
         }
 
-        if (this.wallet) {
-            this.wallet.balance = async function () {
+        if(this.wallet){
+            this.wallet.balance = async function() {
                 return +ethers.utils.formatUnits(await this.getBalance());
             }
             this.loadContracts(this.contractAddresses);
@@ -52,14 +53,17 @@ class DeFiSDK {
         this.contractAddresses = list;
 
         const provider = this.wallet || this.provider;
-        const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
-        const WBNB = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
         let Contract = {
-            Tokens: {} 
+            Tokens: {},
+            Farms: {},
         };
 
         await Promise.all(Object.keys(list.Tokens).map(async sym => {
             Contract.Tokens[sym] = new ethers.Contract(list.Tokens[sym], ABI.ERC20, provider);
+        }));
+
+        await Promise.all(Object.keys(list.Farms).map(async sym => {
+            Contract.Farms[sym] = new ethers.Contract(list.Farms[sym].MasterChef, ABI.MasterChef, provider);
         }));
 
         await Promise.all(Object.keys(list.AMM).map(async dex => {
@@ -91,19 +95,12 @@ class DeFiSDK {
 
                 if (list.AMM[dex].stables) {
                     await Promise.all(Object.keys(list.AMM[dex].stables).map(async stable => {
-                        list.Tokens[stable] = list.AMM[dex].stables[stable];
-                        Contract.Tokens[stable] = new ethers.Contract(list.AMM[dex].stables[stable], ABI.ERC20, provider);
-                        
-                        Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
+                        if(sym !== stable){
+                            list.Tokens[stable] = list.AMM[dex].stables[stable];
+                            Contract.Tokens[stable] = new ethers.Contract(list.AMM[dex].stables[stable], ABI.ERC20, provider);
+                            Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
+                        }
                     }));
-                }
-
-                if(!Contract[dex][sym + '_BUSD']){
-                    Contract[dex][sym + '_BUSD'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], BUSD), ABI.Pairs, provider);
-                }
-
-                if(!Contract[dex][sym + '_WBNB']){
-                    Contract[dex][sym + '_WBNB'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], WBNB), ABI.Pairs, provider);
                 }
 
                 await Promise.all(Object.keys(Contract[dex]).map(async pairs => {
@@ -113,11 +110,11 @@ class DeFiSDK {
                             const reserves = await this.getReserves();
                             return reserves[1] / reserves[0];
                         }
-                        Contract[dex][pairs].buy = async function (amount) {
+                        Contract[dex][pairs].buy = async function(amount){
                             amount = amount || await Contract.Tokens[this.pairs[1]].balance();
                             return Contract[dex].swap(amount, this.pairs[1], this.pairs[0]);
                         }
-                        Contract[dex][pairs].sell = async function (amount) {
+                        Contract[dex][pairs].sell = async function(amount){
                             amount = amount || await Contract.Tokens[this.pairs[0]].balance();
                             return Contract[dex].swap(amount, this.pairs[0], this.pairs[1]);
                         }
@@ -127,9 +124,9 @@ class DeFiSDK {
             }));
         }));
 
-
+        
         await Promise.all(Object.keys(Contract.Tokens).map(async sym => {
-            Contract.Tokens[sym].balance = async function () {
+            Contract.Tokens[sym].balance = async function() {
                 return +ethers.utils.formatUnits(await this.balanceOf(_self.wallet.address));
             }
         }));
@@ -173,7 +170,6 @@ class DeFiSDK {
         req.write(postData);
         req.end();
     }
-
 }
 
 module.exports = DeFiSDK;

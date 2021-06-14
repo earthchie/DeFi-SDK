@@ -751,4 +751,4 @@ const abi_router = [{
     "type": "receive"
 }];
 
-module.exports = abi_router;
+if(typeof module !== 'undefined') module.exports = abi_router;

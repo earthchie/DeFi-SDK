@@ -12,11 +12,13 @@
     <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
     
     <script src="./defi-sdk/abis/abi-erc20.js"></script>
+    <script src="./defi-sdk/abis/abi-masterchef.js"></script>
     <script src="./defi-sdk/abis/abi-factory.js"></script>
     <script src="./defi-sdk/abis/abi-pairs.js"></script>
     <script src="./defi-sdk/abis/abi-router.js"></script>
 
-    <script src="./defi-sdk/contracts/bsc.js"></script>
+    <!--script src="./defi-sdk/contracts/bsc.js"></script-->
+    <script src="./defi-sdk/contracts/polygon.js"></script>
     <script src="./defi-sdk/defi-sdk.js"></script>
     
     <script>
@@ -24,7 +26,8 @@
         async function main(){
             
             // Read-only
-            DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
+            //DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/');
+            DeFi = new DeFiSDK('https://matic-mainnet-archive-rpc.bwarelabs.com'); // Polygon
             
             // with private key, is able to sign transactions 
             //DeFi = new DeFiSDK('https://bsc-dataseed.binance.org/', "PrivateKey or Mnemonic");

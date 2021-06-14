@@ -563,4 +563,4 @@ const abi_pairs = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }];
-module.exports = abi_pairs;
+if(typeof module !== 'undefined') module.exports = abi_pairs;

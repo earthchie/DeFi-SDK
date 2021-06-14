@@ -161,4 +161,4 @@ const abi_factory = [{
     "stateMutability": "nonpayable",
     "type": "function"
 }];
-module.exports = abi_factory;
+if(typeof module !== 'undefined') module.exports = abi_factory;

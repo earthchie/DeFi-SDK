@@ -1,5 +1,6 @@
 const ABI = {
     ERC20: abi_erc20,
+    MasterChef: abi_masterchef,
     Factory: abi_factory,
     Router: abi_router,
     Pairs: abi_pairs
@@ -7,15 +8,14 @@ const ABI = {
 
 class DeFiSDK {
 
-    version = '0.1.4';
-
     constructor(rpc_url, wallet) {
+        this.version = '0.1.5';
         this.setRPC(rpc_url);
         this.setWallet(wallet);
     }
 
     setRPC(rpcURL) {
-        this.rpcURL = rpcURL || 'https://bsc-dataseed.binance.org/';
+        this.rpcURL = rpcURL;
         this.provider = new ethers.providers.JsonRpcProvider(this.rpcURL);
     }
 
@@ -47,14 +47,17 @@ class DeFiSDK {
         this.contractAddresses = list;
 
         const provider = this.wallet || this.provider;
-        const BUSD = '0xe9e7cea3dedca5984780bafc599bd69add087d56';
-        const WBNB = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
         let Contract = {
-            Tokens: {} 
+            Tokens: {},
+            Farms: {},
         };
 
         await Promise.all(Object.keys(list.Tokens).map(async sym => {
             Contract.Tokens[sym] = new ethers.Contract(list.Tokens[sym], ABI.ERC20, provider);
+        }));
+
+        await Promise.all(Object.keys(list.Farms).map(async sym => {
+            Contract.Farms[sym] = new ethers.Contract(list.Farms[sym].MasterChef, ABI.MasterChef, provider);
         }));
 
         await Promise.all(Object.keys(list.AMM).map(async dex => {
@@ -86,19 +89,12 @@ class DeFiSDK {
 
                 if (list.AMM[dex].stables) {
                     await Promise.all(Object.keys(list.AMM[dex].stables).map(async stable => {
-                        list.Tokens[stable] = list.AMM[dex].stables[stable];
-                        Contract.Tokens[stable] = new ethers.Contract(list.AMM[dex].stables[stable], ABI.ERC20, provider);
-                        
-                        Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
+                        if(sym !== stable){
+                            list.Tokens[stable] = list.AMM[dex].stables[stable];
+                            Contract.Tokens[stable] = new ethers.Contract(list.AMM[dex].stables[stable], ABI.ERC20, provider);
+                            Contract[dex][sym + '_' + stable] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], list.AMM[dex].stables[stable]), ABI.Pairs, provider);
+                        }
                     }));
-                }
-
-                if(!Contract[dex][sym + '_BUSD']){
-                    Contract[dex][sym + '_BUSD'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], BUSD), ABI.Pairs, provider);
-                }
-
-                if(!Contract[dex][sym + '_WBNB']){
-                    Contract[dex][sym + '_WBNB'] = new ethers.Contract(await Contract[dex].Factory.getPair(list.Tokens[sym], WBNB), ABI.Pairs, provider);
                 }
 
                 await Promise.all(Object.keys(Contract[dex]).map(async pairs => {

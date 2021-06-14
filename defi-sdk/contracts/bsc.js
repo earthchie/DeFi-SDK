@@ -23,25 +23,39 @@ const Contracts = {
     },
     AMM: {
         Pancake: {
+            stables: {
+                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+                WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
+            },
             Factory: '0xca143ce32fe78f1f7019d7d551a6402fc5350c73',
-            Router: '0x10ED43C718714eb63d5aA57B78B54704E256024E',
+            Router: '0x10ED43C718714eb63d5aA57B78B54704E256024E'
         },
         Twindex: {
             stables: {
-                DOLLY: '0xff54da7caf3bc3d34664891fc8f3c9b6dea6c7a5'
+                DOLLY: '0xff54da7caf3bc3d34664891fc8f3c9b6dea6c7a5',
+                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+                WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
             },
             Factory: '0x4e66fda7820c53c1a2f601f84918c375205eac3e',
-            Router: '0x6B011d0d53b0Da6ace2a3F436Fd197A4E35f47EF',
+            Router: '0x6B011d0d53b0Da6ace2a3F436Fd197A4E35f47EF'
         },
         Ape: {
+            stables: {
+                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+                WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
+            },
             Factory: '0x0841bd0b734e4f5853f0dd8d7ea041c241fb0da6',
-            Router: '0xC0788A3aD43d79aa53B09c2EaCc313A787d1d607',
+            Router: '0xC0788A3aD43d79aa53B09c2EaCc313A787d1d607'
         },
-        Ale_swap: {
+        ALE: {
+            stables: {
+                BUSD: '0xe9e7cea3dedca5984780bafc599bd69add087d56',
+                WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
+            },
             Factory: '0x731d91dd835330cb2beeafb9a1672e3177b7168f',
-            Router: '0xbfbcc27fc5ea4c1d7538e3e076c79a631eb2bea6',
+            Router: '0xbfbcc27fc5ea4c1d7538e3e076c79a631eb2bea6'
         }
     }
 };
 
-module.exports = Contracts;
+if(typeof module !== 'undefined') module.exports = Contracts;

@@ -681,4 +681,4 @@ const abi_erc20 = [{
     "stateMutability": "view",
     "type": "function"
 }];
-module.exports = abi_erc20;
+if(typeof module !== 'undefined') module.exports = abi_erc20;
