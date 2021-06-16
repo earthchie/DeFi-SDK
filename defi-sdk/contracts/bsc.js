@@ -21,6 +21,7 @@ const Contracts = {
         ALE: '0x99ca242f20424a6565cc17a409e557fa95e25bd7',
         LEAF: '0x1cbddf83de068464eba3a4e319bd3197a7eea12c',
     },
+    Farms: {},
     AMM: {
         Pancake: {
             stables: {
