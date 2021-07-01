@@ -17,7 +17,7 @@ const Contracts = {
         Twindex: {
             stables: {
                 mDOLLY: '0x37924e552e0471002a4aff038717df0468284676',
-                WMATIC: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',,
+                WMATIC: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
                 USDC: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174'
             },
             Factory: '0x116997f67a26e72f036b3225476a6fe023fd8251',
